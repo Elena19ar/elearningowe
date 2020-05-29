@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище CourseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="przedmiot">
+    <Key>
+      <PropertyRef Name="id_przedmiotu" />
+    </Key>
+    <Property Name="id_przedmiotu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="przedmiot" Type="varchar" MaxLength="50" />
+    <Property Name="ETCS" Type="numeric" Precision="2" Scale="0" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="indeks" />
+    </Key>
+    <Property Name="indeks" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+    <Property Name="imie" Type="varchar" MaxLength="10" />
+    <Property Name="nazwisko" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="zapis">
+    <Key>
+      <PropertyRef Name="zapis_numer" />
+    </Key>
+    <Property Name="zapis_numer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="indeks" Type="numeric" Precision="6" Scale="0" />
+    <Property Name="kierunek" Type="varchar" MaxLength="50" />
+    <Property Name="Total_ETCS" Type="numeric" Precision="2" Scale="0" />
+  </EntityType>
+  <EntityType Name="zapis_przedmiotow">
+    <Key>
+      <PropertyRef Name="zapis_przedmiotu" />
+    </Key>
+    <Property Name="zapis_przedmiotu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="zapis_numer" Type="int" />
+    <Property Name="id_przedmiotu" Type="int" />
+  </EntityType>
+  <Association Name="FK__zapis__indeks__145C0A3F">
+    <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+    <End Role="zapis" Type="Self.zapis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="indeks" />
+      </Principal>
+      <Dependent Role="zapis">
+        <PropertyRef Name="indeks" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__zapis_prz__id_pr__182C9B23">
+    <End Role="przedmiot" Type="Self.przedmiot" Multiplicity="0..1" />
+    <End Role="zapis_przedmiotow" Type="Self.zapis_przedmiotow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="przedmiot">
+        <PropertyRef Name="id_przedmiotu" />
+      </Principal>
+      <Dependent Role="zapis_przedmiotow">
+        <PropertyRef Name="id_przedmiotu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__zapis_prz__zapis__173876EA">
+    <End Role="zapis" Type="Self.zapis" Multiplicity="0..1" />
+    <End Role="zapis_przedmiotow" Type="Self.zapis_przedmiotow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="zapis">
+        <PropertyRef Name="zapis_numer" />
+      </Principal>
+      <Dependent Role="zapis_przedmiotow">
+        <PropertyRef Name="zapis_numer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище CourseModelContainer">
+    <EntitySet Name="przedmiot" EntityType="Self.przedmiot" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="zapis" EntityType="Self.zapis" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="zapis_przedmiotow" EntityType="Self.zapis_przedmiotow" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__zapis__indeks__145C0A3F" Association="Self.FK__zapis__indeks__145C0A3F">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="zapis" EntitySet="zapis" />
+    </AssociationSet>
+    <AssociationSet Name="FK__zapis_prz__id_pr__182C9B23" Association="Self.FK__zapis_prz__id_pr__182C9B23">
+      <End Role="przedmiot" EntitySet="przedmiot" />
+      <End Role="zapis_przedmiotow" EntitySet="zapis_przedmiotow" />
+    </AssociationSet>
+    <AssociationSet Name="FK__zapis_prz__zapis__173876EA" Association="Self.FK__zapis_prz__zapis__173876EA">
+      <End Role="zapis" EntitySet="zapis" />
+      <End Role="zapis_przedmiotow" EntitySet="zapis_przedmiotow" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

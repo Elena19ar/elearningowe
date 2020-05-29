@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище CourseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="przedmiot">
+          <Key>
+            <PropertyRef Name="id_przedmiotu" />
+          </Key>
+          <Property Name="id_przedmiotu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="przedmiot" Type="varchar" MaxLength="50" />
+          <Property Name="ETCS" Type="numeric" Precision="2" Scale="0" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="indeks" />
+          </Key>
+          <Property Name="indeks" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="imie" Type="varchar" MaxLength="10" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="zapis">
+          <Key>
+            <PropertyRef Name="zapis_numer" />
+          </Key>
+          <Property Name="zapis_numer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="indeks" Type="numeric" Precision="6" Scale="0" />
+          <Property Name="kierunek" Type="varchar" MaxLength="50" />
+          <Property Name="Total_ETCS" Type="numeric" Precision="2" Scale="0" />
+        </EntityType>
+        <EntityType Name="zapis_przedmiotow">
+          <Key>
+            <PropertyRef Name="zapis_przedmiotu" />
+          </Key>
+          <Property Name="zapis_przedmiotu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="zapis_numer" Type="int" />
+          <Property Name="id_przedmiotu" Type="int" />
+        </EntityType>
+        <Association Name="FK__zapis__indeks__145C0A3F">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="zapis" Type="Self.zapis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="indeks" />
+            </Principal>
+            <Dependent Role="zapis">
+              <PropertyRef Name="indeks" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapis_prz__id_pr__182C9B23">
+          <End Role="przedmiot" Type="Self.przedmiot" Multiplicity="0..1" />
+          <End Role="zapis_przedmiotow" Type="Self.zapis_przedmiotow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmiot">
+              <PropertyRef Name="id_przedmiotu" />
+            </Principal>
+            <Dependent Role="zapis_przedmiotow">
+              <PropertyRef Name="id_przedmiotu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapis_prz__zapis__173876EA">
+          <End Role="zapis" Type="Self.zapis" Multiplicity="0..1" />
+          <End Role="zapis_przedmiotow" Type="Self.zapis_przedmiotow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zapis">
+              <PropertyRef Name="zapis_numer" />
+            </Principal>
+            <Dependent Role="zapis_przedmiotow">
+              <PropertyRef Name="zapis_numer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CourseModelContainer">
+          <EntitySet Name="przedmiot" EntityType="Self.przedmiot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zapis" EntityType="Self.zapis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zapis_przedmiotow" EntityType="Self.zapis_przedmiotow" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__zapis__indeks__145C0A3F" Association="Self.FK__zapis__indeks__145C0A3F">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="zapis" EntitySet="zapis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapis_prz__id_pr__182C9B23" Association="Self.FK__zapis_prz__id_pr__182C9B23">
+            <End Role="przedmiot" EntitySet="przedmiot" />
+            <End Role="zapis_przedmiotow" EntitySet="zapis_przedmiotow" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapis_prz__zapis__173876EA" Association="Self.FK__zapis_prz__zapis__173876EA">
+            <End Role="zapis" EntitySet="zapis" />
+            <End Role="zapis_przedmiotow" EntitySet="zapis_przedmiotow" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CourseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="przedmiot">
+          <Key>
+            <PropertyRef Name="id_przedmiotu" />
+          </Key>
+          <Property Name="id_przedmiotu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="przedmiot1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ETCS" Type="Decimal" Precision="2" Scale="0" />
+          <NavigationProperty Name="zapis_przedmiotow" Relationship="Self.FK__zapis_prz__id_pr__182C9B23" FromRole="przedmiot" ToRole="zapis_przedmiotow" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="indeks" />
+          </Key>
+          <Property Name="indeks" Type="Decimal" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="imie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="zapis" Relationship="Self.FK__zapis__indeks__145C0A3F" FromRole="Student" ToRole="zapis" />
+        </EntityType>
+        <EntityType Name="zapis">
+          <Key>
+            <PropertyRef Name="zapis_numer" />
+          </Key>
+          <Property Name="zapis_numer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="indeks" Type="Decimal" Precision="6" Scale="0" />
+          <Property Name="kierunek" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Total_ETCS" Type="Decimal" Precision="2" Scale="0" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__zapis__indeks__145C0A3F" FromRole="zapis" ToRole="Student" />
+          <NavigationProperty Name="zapis_przedmiotow" Relationship="Self.FK__zapis_prz__zapis__173876EA" FromRole="zapis" ToRole="zapis_przedmiotow" />
+        </EntityType>
+        <EntityType Name="zapis_przedmiotow">
+          <Key>
+            <PropertyRef Name="zapis_przedmiotu" />
+          </Key>
+          <Property Name="zapis_przedmiotu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="zapis_numer" Type="Int32" />
+          <Property Name="id_przedmiotu" Type="Int32" />
+          <NavigationProperty Name="przedmiot" Relationship="Self.FK__zapis_prz__id_pr__182C9B23" FromRole="zapis_przedmiotow" ToRole="przedmiot" />
+          <NavigationProperty Name="zapis" Relationship="Self.FK__zapis_prz__zapis__173876EA" FromRole="zapis_przedmiotow" ToRole="zapis" />
+        </EntityType>
+        <Association Name="FK__zapis_prz__id_pr__182C9B23">
+          <End Role="przedmiot" Type="Self.przedmiot" Multiplicity="0..1" />
+          <End Role="zapis_przedmiotow" Type="Self.zapis_przedmiotow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmiot">
+              <PropertyRef Name="id_przedmiotu" />
+            </Principal>
+            <Dependent Role="zapis_przedmiotow">
+              <PropertyRef Name="id_przedmiotu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapis__indeks__145C0A3F">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="zapis" Type="Self.zapis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="indeks" />
+            </Principal>
+            <Dependent Role="zapis">
+              <PropertyRef Name="indeks" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapis_prz__zapis__173876EA">
+          <End Role="zapis" Type="Self.zapis" Multiplicity="0..1" />
+          <End Role="zapis_przedmiotow" Type="Self.zapis_przedmiotow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zapis">
+              <PropertyRef Name="zapis_numer" />
+            </Principal>
+            <Dependent Role="zapis_przedmiotow">
+              <PropertyRef Name="zapis_numer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="przedmiot" EntityType="Self.przedmiot" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="zapis" EntityType="Self.zapis" />
+          <EntitySet Name="zapis_przedmiotow" EntityType="Self.zapis_przedmiotow" />
+          <AssociationSet Name="FK__zapis_prz__id_pr__182C9B23" Association="Self.FK__zapis_prz__id_pr__182C9B23">
+            <End Role="przedmiot" EntitySet="przedmiot" />
+            <End Role="zapis_przedmiotow" EntitySet="zapis_przedmiotow" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapis__indeks__145C0A3F" Association="Self.FK__zapis__indeks__145C0A3F">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="zapis" EntitySet="zapis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapis_prz__zapis__173876EA" Association="Self.FK__zapis_prz__zapis__173876EA">
+            <End Role="zapis" EntitySet="zapis" />
+            <End Role="zapis_przedmiotow" EntitySet="zapis_przedmiotow" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CourseModelContainer" CdmEntityContainer="DBModel">
+          <EntitySetMapping Name="przedmiot">
+            <EntityTypeMapping TypeName="CourseModel.przedmiot">
+              <MappingFragment StoreEntitySet="przedmiot">
+                <ScalarProperty Name="id_przedmiotu" ColumnName="id_przedmiotu" />
+                <ScalarProperty Name="przedmiot1" ColumnName="przedmiot" />
+                <ScalarProperty Name="ETCS" ColumnName="ETCS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="CourseModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="indeks" ColumnName="indeks" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zapis">
+            <EntityTypeMapping TypeName="CourseModel.zapis">
+              <MappingFragment StoreEntitySet="zapis">
+                <ScalarProperty Name="zapis_numer" ColumnName="zapis_numer" />
+                <ScalarProperty Name="indeks" ColumnName="indeks" />
+                <ScalarProperty Name="kierunek" ColumnName="kierunek" />
+                <ScalarProperty Name="Total_ETCS" ColumnName="Total_ETCS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zapis_przedmiotow">
+            <EntityTypeMapping TypeName="CourseModel.zapis_przedmiotow">
+              <MappingFragment StoreEntitySet="zapis_przedmiotow">
+                <ScalarProperty Name="zapis_przedmiotu" ColumnName="zapis_przedmiotu" />
+                <ScalarProperty Name="zapis_numer" ColumnName="zapis_numer" />
+                <ScalarProperty Name="id_przedmiotu" ColumnName="id_przedmiotu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
